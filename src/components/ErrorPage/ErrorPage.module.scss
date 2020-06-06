@@ -1,0 +1,14 @@
+.ErrorPage{
+  display: flex;
+  flex-flow: column nowrap;
+  place-content: center center;
+  width: 30%;
+
+  margin: 12% auto;
+  text-align: center;
+
+  a{
+    color: white;
+    text-decoration: none;
+  }
+}

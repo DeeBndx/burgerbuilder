@@ -1,0 +1,44 @@
+.btn {
+  color: #fff;
+  text-decoration: none;
+  align-self: center;
+  position: relative;
+  font-size: 20px;
+  font-weight: bold;
+  color: #f9f9f9;
+  margin: 1em auto;
+  white-space: nowrap;
+  background: #b71759;
+  border-radius: 4px;
+  border: none;
+  z-index: 4;
+  cursor: pointer;
+  transition: 200ms;
+  outline: none;
+  padding: 8px;
+  // margin-right: 16px;
+  
+  &:hover {
+    background: #99134b;
+    // text-decoration: underline;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  &--secondary {
+    background: none;
+    &:hover {
+      background: #b7175967;
+    }
+  }
+  &--tertiary {
+    background: none;
+    color: #b71759;
+    &:hover {
+      background: #b7175967;
+    }
+  }
+}

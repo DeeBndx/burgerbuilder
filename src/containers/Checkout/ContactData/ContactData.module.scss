@@ -1,0 +1,30 @@
+.ContactData {
+  margin: 20px auto;
+  width: 80%;
+  text-align: center;
+
+  form {
+    display: flex;
+    flex-flow: column nowrap;
+    place-content: center center;
+  }
+
+  .Input {
+    // display: block;
+    width: 80%;
+    margin-left: 10%;
+    color: #332B2F;
+    background: #f2ccdf00;
+    border: 2px solid #b71759;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 16px;
+    outline: none;
+    font-size: 16px;
+    font-family: "Poppins";
+  }
+
+  @media (min-width: 600px) {
+    width: 500px;
+  }
+}

@@ -1,0 +1,71 @@
+.InputGroup {
+  margin: 16px;
+  box-sizing: border-box;
+
+  .errorMsg {
+    display: none;
+  }
+
+  &__inValid {
+    .errorMsg {
+      display: block;
+      text-align: left;
+      text-align: left;
+      margin: 4px 0 0 0;
+      color: #b71732;
+    }
+
+    .Input,
+    .errorMsg {
+      animation-name: error;
+      animation-duration: 750ms;
+      animation-iteration-count: 1;
+      animation-timing-function: ease;
+    }
+  }
+
+  .Label,
+  .Input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .Label {
+    text-align: left;
+    font: Bold 12px Poppins;
+    letter-spacing: 0px;
+    color: #332b2fd9;
+    margin-bottom: 4px;
+  }
+
+  .Input {
+    color: #332b2f;
+    background: #f2ccdf00;
+    border: 2px solid #b71759;
+    border-radius: 4px;
+    padding: 8px 12px;
+    outline: none;
+    font-size: 16px;
+    transition: 200ms;
+
+    &:hover {
+      box-shadow: 0 3px 6px #32323235;
+    }
+    &:focus {
+      box-shadow: 0 3px 12px #32323266;
+    }
+  }
+}
+
+@keyframes error {
+  0%,
+  100% {
+    background: rgba(183, 23, 50, 0);
+  }
+
+  10%,
+  66% {
+    background: rgba(183, 23, 50, 0.8);
+  }
+}

@@ -1,0 +1,31 @@
+.BurgerToggle {
+  position: relative;
+  height: 4px;
+  width: 1.6em;
+  background-color: #000;
+
+  &::before {
+    position: absolute;
+    content: "";
+    top: 0.25em;
+    left: 0;
+    margin-top: 4px;
+    height: 4px;
+    width: 1.4em;
+    background-color: #000;
+  }
+  &::after {
+    position: absolute;
+    content: "";
+    top: -0.75em;
+    left: 0;
+    margin-top: 4px;
+    height: 4px;
+    width: 1.4em;
+    background-color: #000;
+  }
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
