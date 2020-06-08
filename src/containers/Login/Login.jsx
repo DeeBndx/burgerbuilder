@@ -6,6 +6,7 @@ import classes from "./Login.module.scss";
 
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Login extends Component {
   state = {
@@ -104,7 +105,7 @@ class Login extends Component {
       });
     }
 
-    const form = formElementsArray.map((formElement) => (
+    let form = formElementsArray.map((formElement) => (
       <Input
         key={formElement.id}
         elementType={formElement.config.elementType}
@@ -120,8 +121,20 @@ class Login extends Component {
       />
     ));
 
+    if( this.props.loading ) {
+      form = <Spinner background="#fff" />
+    }
+
+    let errorMessage = null;
+    if ( this.props.error ) {
+      errorMessage = (
+        <p>{this.props.error.message}</p>
+      )
+    }
+
     return (
-      <div>
+      <div stlye={{ textAlign: "center" }}>
+        {errorMessage}
         <form onSubmit={this.submitFormHandler} className={classes.Login}>
           <h1>{this.state.isSignup ? "Sign Up" : "Login"}</h1>
           {form}
@@ -135,10 +148,18 @@ class Login extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    onAuth: (email, password, isSignup) => dispatch(actions.auth(email, password, isSignup)),
+    loading: state.auth.loading,
+    error: state.auth.error
   };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuth: (email, password, isSignup) =>
+      dispatch(actions.auth(email, password, isSignup)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
