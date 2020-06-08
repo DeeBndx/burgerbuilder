@@ -7,6 +7,7 @@ import LandingPage from './containers/LandingPage/LandingPage';
 import Checkout from "./containers/Checkout/Checkout";
 import ErrorPage from "./components/ErrorPage/ErrorPage";
 import Orders from "./containers/Orders/Orders";
+import Login from './containers/Login/Login';
 
 class App extends Component {
   render(){
@@ -21,6 +22,7 @@ class App extends Component {
           <Route path="/builder" exact component={BurgerBuilder} />
           <Route path="/checkout"  component={Checkout} />
           <Route path="/orders"  component={Orders} />
+          <Route path="/login"  component={Login} />
           <Route path="/" exact component={LandingPage} />
           <Route component={ErrorPage}/>
 

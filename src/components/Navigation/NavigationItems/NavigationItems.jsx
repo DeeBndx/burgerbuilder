@@ -11,6 +11,7 @@ const navigationItems = (props) => {
       <NavigationItem link="/" exact>Home</NavigationItem>
       <NavigationItem link="/builder">Burger Builder</NavigationItem>
       <NavigationItem link="/orders">Orders</NavigationItem>
+      <NavigationItem link="/login">Login</NavigationItem>
     </ul>
   );
 }
