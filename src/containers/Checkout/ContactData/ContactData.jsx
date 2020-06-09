@@ -129,7 +129,14 @@ class ContactData extends Component {
       orderNumber: orderNumber
     };
 
-    this.props.onOrderBurger(order);
+    if ( this.props.token ) {
+      this.props.onOrderBurger(order, this.props.token);
+    }
+    else {
+      console.log(this.props.history)
+      this.props.history.push("/login");
+    }
+    
   };
 
   chcekValidity(value, rules) {
@@ -244,13 +251,14 @@ const mapStateToProps = (state) => {
     burgerPrice: state.burgerbuilder.totalPrice,
     orderNumber: state.orders.orderNumber,
     loading: state.orders.loading,
-    purchased: state.orders.purchased
+    purchased: state.orders.purchased,
+    token: state.auth.token
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData))
+    onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
   };
 };
 

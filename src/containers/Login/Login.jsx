@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions/index";
+import { Redirect } from "react-router-dom";
 
+import * as actions from "../../store/actions/index";
 import classes from "./Login.module.scss";
 
 import Input from "../../components/UI/Input/Input";
@@ -46,6 +47,12 @@ class Login extends Component {
     },
     isSignup: true,
   };
+
+  componentDidMount() {
+    if (!this.props.buildingBurger && this.props.authRedirectPath !== "/") {
+      this.props.onSetAuthRedirectPath();
+    }
+  }
 
   chcekValidity(value, rules) {
     let isValid = true;
@@ -121,26 +128,30 @@ class Login extends Component {
       />
     ));
 
-    if( this.props.loading ) {
-      form = <Spinner background="#fff" />
+    if (this.props.loading) {
+      form = <Spinner background="#fff" />;
     }
 
     let errorMessage = null;
-    if ( this.props.error ) {
-      errorMessage = (
-        <p>{this.props.error.message}</p>
-      )
+    if (this.props.error) {
+      errorMessage = <p>{this.props.error.message}</p>;
+    }
+
+    let authRedirect = null;
+    if (this.props.isAuth) {
+      authRedirect = <Redirect to={this.props.authRedirectPath} />;
     }
 
     return (
-      <div stlye={{ textAlign: "center" }}>
+      <div className={classes.Login}>
+        {authRedirect}
         {errorMessage}
-        <form onSubmit={this.submitFormHandler} className={classes.Login}>
+        <form onSubmit={this.submitFormHandler}>
           <h1>{this.state.isSignup ? "Sign Up" : "Login"}</h1>
           {form}
           <Button>{this.state.isSignup ? "Sign Up" : "Login"}</Button>
         </form>
-        <Button clicked={this.switchAuthModeHandler}>
+        <Button btnType="btn--tertiary" clicked={this.switchAuthModeHandler}>
           Switch to {this.state.isSignup ? "Login" : "Sign Up"}
         </Button>
       </div>
@@ -151,7 +162,10 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
-    error: state.auth.error
+    error: state.auth.error,
+    isAuth: state.auth.token !== null,
+    buildingBurger: state.burgerbuilder.building,
+    authRedirectPath: state.auth.authRedirectPath,
   };
 };
 
@@ -159,6 +173,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (email, password, isSignup) =>
       dispatch(actions.auth(email, password, isSignup)),
+    onSetAuthRedirectPath: () => dispatch(actions.setAuthRedirectPath("/")),
   };
 };
 

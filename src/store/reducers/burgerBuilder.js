@@ -4,6 +4,7 @@ import { updateObject } from "../utility";
 const initialState = {
   ingredients: null,
   totalPrice: 4,
+  building: false,
   error: false,
 };
 
@@ -22,6 +23,7 @@ const addIngredient = (state, action) => {
   const updatedState = {
     ingredients: updatedIngredients,
     totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+    building: true,
   };
   return updateObject(state, updatedState);
 };
@@ -34,11 +36,13 @@ const removeIngredient = (state, action) => {
   const updatedStat = {
     ingredients: updatedIngs,
     totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
+    building: true,
   };
   return updateObject(state, updatedStat);
 };
 
-const removeAllIngredients = (state, action) => updateObject(state, {
+const removeAllIngredients = (state, action) =>
+  updateObject(state, {
     ingredients: {
       salad: 0,
       bacon: 0,
@@ -46,27 +50,32 @@ const removeAllIngredients = (state, action) => updateObject(state, {
       meat: 0,
     },
     totalPrice: 4,
+    building: false,
   });
 
-const setIngredient = (state, action) => updateObject(state, {
+const setIngredient = (state, action) =>
+  updateObject(state, {
     ingredients: action.ingredients,
     totalPrice: 4,
+    building: false,
     error: false,
   });
 
-const fetchIngredientsFailed = (state, action) => updateObject(state, { error: true });
+const fetchIngredientsFailed = (state, action) =>
+  updateObject(state, { error: true });
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.ADD_INGREDIENT: return addIngredient(state, action);
-
-    case actions.REMOVE_INGREDIENT: return removeIngredient(state, action);
-
-    case actions.REMOVE_ALL_INGREDIENTS: return removeAllIngredients(state, action);
-
-    case actions.SET_INGREDIENTS: return setIngredient(state, action);
-
-    case actions.FETCH_INGREDIENTS_FAILED: return fetchIngredientsFailed(state, action);
+    case actions.ADD_INGREDIENT:
+      return addIngredient(state, action);
+    case actions.REMOVE_INGREDIENT:
+      return removeIngredient(state, action);
+    case actions.REMOVE_ALL_INGREDIENTS:
+      return removeAllIngredients(state, action);
+    case actions.SET_INGREDIENTS:
+      return setIngredient(state, action);
+    case actions.FETCH_INGREDIENTS_FAILED:
+      return fetchIngredientsFailed(state, action);
 
     default:
       return state;

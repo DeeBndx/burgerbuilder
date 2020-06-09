@@ -31,60 +31,11 @@ class BurgerBuilder extends Component {
     this.updatePurchaseState(updatedIngredients);
   };
 
-  // addIngredientHandler = (type) => {
-  //   // Find type af ingrediens
-  //   const oldCount = this.state.ingredients[type];
-
-  //   // Tilæg 1 til gamle ingrediensmængde
-  //   const updatedCount = oldCount + 1;
-
-  //   // Kopi af state
-  //   const updatedIngredients = {...this.state.ingredients}
-
-  //   // Den valgte ingrediens objekt blive sat til opdatert værdi.
-  //   updatedIngredients[type] = updatedCount;
-
-  //   // Pristillæg udfra ingredienstype
-  //   const priceAddition = INGREDIENT_PRICES[type];
-  //   const oldPrice = this.state.totalPrice;
-  //   const newPrice = oldPrice + priceAddition;
-  //   this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-
-  //   this.updatePurchaseState(updatedIngredients);
-  // }
-
-  // removeIngredientHandler = (type) => {
-  //   const oldCount = this.state.ingredients[type];
-  //   if (oldCount <= 0){
-  //     return;
-  //   }
-  //   const updatedCount = oldCount - 1;
-  //   const updatedIngredients = {
-  //     ...this.state.ingredients
-  //   }
-  //   updatedIngredients[type] = updatedCount;
-  //   const priceDeduction = INGREDIENT_PRICES[type];
-  //   const oldPrice = this.state.totalPrice;
-  //   const newPrice = oldPrice - priceDeduction;
-  //   this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
-
-  //   this.updatePurchaseState(updatedIngredients);
-  // }
-
   purchaseContinueHandler = () => {
-    // const queryParams = [];
-
-    // for(let i in this.state.ingredients){
-    //   queryParams.push(encodeURIComponent(i) + "=" + encodeURIComponent(this.state.ingredients[i]));
-    // }
-    // queryParams.push("price=" + this.state.totalPrice);
-    // const queryString = queryParams.join("&")
-
     this.props.onInitPurchased();
-    
+
     this.props.history.push({
       pathname: "/checkout",
-      // search: "?" + queryString
     });
   };
 
@@ -97,15 +48,16 @@ class BurgerBuilder extends Component {
         return sum + el;
       }, 0);
 
-    // if(sum === 0){
-    //   this.setState({totalPrice: 4})
-    // }
-
     return sum > 0;
   }
 
   purchaseHandler = () => {
-    this.setState({ purchasing: true });
+    if (this.props.isAuth) {
+      this.setState({ purchasing: true });
+    } else {
+      this.props.onSetAuthRedirectPath("/checkout")
+      this.props.history.push("/login");
+    }
   };
 
   purchaseCancelHandler = () => {
@@ -139,6 +91,7 @@ class BurgerBuilder extends Component {
             ordered={this.purchaseHandler}
             purchasable={this.updatePurchaseState(this.props.burgerIngs)}
             price={this.props.burgerPrice}
+            isAuth={this.props.isAuth}
           />
           <Burger ingredients={this.props.burgerIngs}></Burger>
         </Aux>
@@ -178,6 +131,7 @@ const mapStateToProps = (state) => {
     burgerIngs: state.burgerbuilder.ingredients,
     burgerPrice: state.burgerbuilder.totalPrice,
     error: state.burgerbuilder.error,
+    isAuth: state.auth.token !== null,
   };
 };
 
@@ -188,7 +142,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(actions.removeIngredient(ingName)),
     onBurgerEmpty: () => dispatch(actions.removeAllIngredients()),
     onInitIngredients: () => dispatch(actions.initIngredients()),
-    onInitPurchased: () => dispatch(actions.purchaseInit())
+    onInitPurchased: () => dispatch(actions.purchaseInit()),
+    onSetAuthRedirectPath: (path) =>
+      dispatch(actions.setAuthRedirectPath(path)),
   };
 };
 

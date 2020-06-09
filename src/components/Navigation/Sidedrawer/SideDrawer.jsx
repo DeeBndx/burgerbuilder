@@ -2,7 +2,7 @@ import React from 'react';
 
 import classes from "./SideDrawer.module.scss";
 import Logo from '../../Logo/Logo';
-import NavItems from '../NavigationItems/NavigationItems';
+import NavigationItems from '../NavigationItems/NavigationItems';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Aux from "../../../hoc/Auxiliary/Auxiliary";
 
@@ -22,7 +22,7 @@ const sideDrawer = (props) => {
           <Logo/>
         </div>
         <nav>
-          <NavItems></NavItems>
+          <NavigationItems isAuth={props.isAuth}></NavigationItems>
         </nav>
       </div>
     </Aux>
